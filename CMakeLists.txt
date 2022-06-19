@@ -13,6 +13,8 @@ add_executable(opengl-cmake-skeleton
   src/main.cpp
   src/Shader.hpp
   src/Shader.cpp
+  src/tigl.hpp
+  src/tigl.cpp
 )
 
 set_property(TARGET opengl-cmake-skeleton PROPERTY CXX_STANDARD 11)
