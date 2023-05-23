@@ -63,11 +63,11 @@ int main(void) {
   }
   glfwMakeContextCurrent(window);
 
+  std::cout << glGetString(GL_RENDERER) << "\n" << glGetString(GL_VERSION) << std::endl;
+
   tigl::init();
 
   init();
-
-  std::cout << glGetString(GL_RENDERER) << "\n" << glGetString(GL_VERSION) << std::endl;
 
   while (!glfwWindowShouldClose(window)) {
     update();
@@ -105,8 +105,8 @@ void init() {
     if (key == GLFW_KEY_ESCAPE) {
       glfwSetWindowShouldClose(window, true);
 
-      // Write the number of broken barrels to a file
-      write_nr_barrels();
+      // Score is written to file on exit
+      writeScore();
     }
   });
 
@@ -126,7 +126,7 @@ void update() {
     // Check whether the player is close to a barrel
     glm::vec3 currentPos = camera->getPosition();
     for (std::vector<Barrel*>::iterator it = barrels.begin(); it != barrels.end(); it++) {
-      currentScore = currentScore + (*it)->break_Barrel(currentPos);
+      currentScore = currentScore + (*it)->breakBarrel(currentPos);
     }
 
     // Check whether the player is close to the piano
@@ -143,7 +143,7 @@ void update() {
     // Loop through all the Barrels, which will then get 'repaired'
     for (std::vector<Barrel*>::iterator it = barrels.begin();
          it != barrels.end(); it++) {
-      (*it)->restore_Barrel();
+      (*it)->restoreBarrel();
     }
   }
 
