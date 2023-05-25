@@ -40,7 +40,7 @@ Barrel& Barrel::operator=(const Barrel& other)
 
 // Draw method for the Barrel class
 void Barrel::draw()
-{
+{	
 	barrelToDisplay->draw();
 }
 
@@ -53,18 +53,19 @@ float Barrel::breakBarrel(glm::vec3 cameraPos)
 {
 	if (!broken)
 	{
-		int x_dif = barrelToDisplay->position.x + cameraPos.x;
-		int y_dif = barrelToDisplay->position.z + cameraPos.z;
+		float x_dif = barrelToDisplay->position.x + cameraPos.x;
+		float y_dif = barrelToDisplay->position.z + cameraPos.z;
 
 		if (x_dif < 2.1 && x_dif > -1.1 && y_dif < 1.1 && y_dif > -1.1)
 		{
 			barrelToDisplay = transformedBarrelModel;
 			broken = true;
-			std::cout << pow(x_dif, 2) + pow(y_dif, 2); << std::endl;
-			return pow(x_dif, 2) + pow(y_dif, 2);
+			float score = 5.0 - (pow(x_dif, 2) + pow(y_dif, 2) *2 );
+			std::cout << score << std::endl; 
+			return score;
 		}
 	}
-	return 0.0f
+	return 0.0f;
 }
 
 void Barrel::restoreBarrel()

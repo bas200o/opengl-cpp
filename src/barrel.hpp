@@ -1,7 +1,8 @@
 #pragma once
 #include "ObjModel.hpp"
+#include "drawable.hpp"
 
-class Barrel
+class Barrel : public Drawable
 {
 public:
 	Barrel(const std::string& original_filename, const std::string& trans_filename, glm::vec3 pos); // Constructor
@@ -16,6 +17,6 @@ public:
 
 	ObjModel* originalBarrelModel;
 	ObjModel* transformedBarrelModel;
-	ObjModel* BarrelToDisplay;
+	ObjModel* barrelToDisplay;
 	bool broken;
 };

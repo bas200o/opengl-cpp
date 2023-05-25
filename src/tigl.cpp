@@ -1,3 +1,7 @@
+/**
+ * Imported from TI
+*/
+
 #include "tigl.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
