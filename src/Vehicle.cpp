@@ -30,6 +30,16 @@ void Vehicle::move(float amount)
 		vehicleModel->position.z += amount;
 }
 
+void Vehicle::move()
+{
+	if (vehicleModel->position.z < 5.0)
+	{
+		vehicleModel->position.z += 0.01f;
+	}
+	
+		
+}
+
 // Method which will draw the vehicle
 void Vehicle::draw()
 {

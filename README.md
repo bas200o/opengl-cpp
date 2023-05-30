@@ -1,28 +1,17 @@
-OpenGL CMake Skeleton [![Build Status](https://travis-ci.org/ArthurSonzogni/OpenGL_CMake_Skeleton.svg?branch=master)](https://travis-ci.org/ArthurSonzogni/OpenGL_CMake_Skeleton)
+C++ & OpenGL opdracht Bas Winkelhof
 =======================
+Eindopdracht voor C++ en OpenGL TI2.4
 
-A ready to use C++11 CMake OpenGL skeleton using **GLFW**, **Glew** and **glm**. (use git submodules)
-
-It compiles on:
- * **WebAssembly**  (on branch webassembly. See instruction below)
+Runs on
  * Linux
  * Windows
  * Mac
-
-It can compile for the Web with WebAssembly thanks to emscripten, as well as on
-Linux, Windows and Mac.
-
-Shader class and example Application are included.
-
-![output result](output.gif)
-
-I am open to any comments and contributions.
 
 Clone (With submodules):
 ========================
 
 ```
-git clone --recursive git@github.com:ArthurSonzogni/OpenGL_CMake_Skeleton.git
+git clone --recursive git@github.com:bas200o/opengl-cpp.git
 ```
 
 Alternatively, if you don't used the --recursive option, you can type:
@@ -31,25 +20,20 @@ git submodule init
 git submodule update
 ```
 
-usage (WebAssembly) : 
----------------------
-Switch to the webassembly branch
-```
-git checkout webassembly
-```
+usage (VS Code)
+---------------
+Install the following extensions
 
-Install emscripten, then
-```bash
-mkdir build_emscripten
-cd build_emscripten
-CC=emcc CXX=em++ cmake ..
-make
-python -m SimpleHTTPServer 8000
-```
+https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
 
-Now, visit [http://localhost:8000](http://localhost:8000)
+https://marketplace.visualstudio.com/items?itemName=twxs.cmake
 
-usage (Linux) : 
+- Select build kit (eg. GCC)
+- Select build target opengl-bas
+- run
+
+
+usage (Linux - x11) : 
 ---------------
 Some standard library to install:
 ```bash
@@ -70,3 +54,9 @@ For instance :
 * Configure (Choose for example Visual Studio generator)
 * Generate
 Launch the generated project in your favorite IDE and run it.
+
+## Testing
+run ```ctest``` from build directory
+
+
+

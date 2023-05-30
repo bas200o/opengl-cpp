@@ -8,10 +8,12 @@
 // Includes and defines
 #define STB_IMAGE_IMPLEMENTATION
 
+#include <filesystem>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <fstream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <iomanip>
 #include <iostream>
 #include "Building.hpp"
 #include "FpsCam.hpp"
@@ -22,6 +24,8 @@
 #include "barrel.hpp"
 #include "drawable.hpp"
 #include "tigl.hpp"
+#include "../test/test.hpp"
+
 
 using tigl::Vertex;
 
@@ -46,23 +50,56 @@ Texture* ground;
 void init();
 void update();
 void draw();
-void draw_models();
-void init_models();
+void drawModels();
+void initModels();
 void readScore();
 void writeScore();
 
-int main(void) {
-  if (!glfwInit())
-    throw "Could not initialize glwf";
-  window = glfwCreateWindow(1400, 800, "opengl cpp", NULL, NULL);
-  if (!window) {
-    glfwTerminate();
-    throw "Could not initialize glwf";
-  }
-  glfwMakeContextCurrent(window);
+float operator"" _m(long double x) {
+  return x;
+}
 
-  std::cout << glGetString(GL_RENDERER) << "\n"
-            << glGetString(GL_VERSION) << std::endl;
+float operator"" _cm(long double x) {
+  return x / 100;
+}
+
+int main(int argc, char *argv[]) {
+  std::cout << argc << std::endl;
+  if (argc > 1) {
+    for (int i = 0; i < argc; ++i) {
+      std::string str = argv[i];
+
+      // Start unit tests
+      if(str.compare("test")) {
+        test1();
+      }
+    }
+    return 0;
+  }
+
+
+  try {
+    if (glfwInit()) {
+      std::cout << "GLFW success" << std::endl;
+    } else {
+      throw "Could not initialize glwf program quits";
+    }
+
+    window = glfwCreateWindow(1400, 800, "opengl cpp", NULL, NULL);
+
+    if (window) {
+      std::cout << "success creating a window" << std::endl;
+    } else {
+      glfwTerminate();
+      throw "Could not initialize glwf";
+    }
+    glfwMakeContextCurrent(window);
+    std::cout << glGetString(GL_RENDERER) << "\n"
+              << glGetString(GL_VERSION) << std::endl;
+  } catch (std::string error) {
+    std::cout << "ERROR: " << error << std::endl;
+    return -1;
+  }
 
   tigl::init();
 
@@ -112,7 +149,7 @@ void init() {
   ground = new Texture("../res/models/sandy_ground.png");
   camera = new FpsCam(window);
 
-  init_models();
+  initModels();
 }
 
 void update() {
@@ -120,7 +157,7 @@ void update() {
   camera->update(window, stagecoach);
   // Update the stagecoach
   if (!camera->inCar) {
-    stagecoach->move(0.01f);
+    stagecoach->move();
   }
 
   if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
@@ -166,16 +203,13 @@ void draw() {
 
   glEnable(GL_DEPTH_TEST);
 
-
-
-  draw_models();
+  drawModels();
 }
 
 /**
  * draws all models
  */
-void draw_models() {
-
+void drawModels() {
   // Draw all non ground models
   for (std::vector<Drawable*>::iterator it = drawables.begin();
        it != drawables.end(); it++) {
@@ -198,7 +232,7 @@ void draw_models() {
   tigl::end();
 }
 
-void init_models() {
+void initModels() {
   // Initialize all the buildings
   Building* church;
   Building* shed;
@@ -207,19 +241,20 @@ void init_models() {
   Building* grand_hotel;
 
   stagecoach = new Vehicle("../res/models/stagecoach.obj",
-                           glm::vec3(0, globalY + 0.3f, 0));
+                           glm::vec3(0, globalY + 30.0_cm, 0));
   drawables.push_back(stagecoach);
 
   // Load in Obj files for the Buildings
-  church =
-      new Building("../res/models/church.obj", glm::vec3(0, globalY, -8));
-  shed = new Building("../res/models/shed.obj", glm::vec3(-4, globalY, 6));
+  church = new Building("../res/models/church.obj",
+                        glm::vec3(0.0_m, globalY, -8.0_m));
+  shed =
+      new Building("../res/models/shed.obj", glm::vec3(-5.0_m, globalY, 6.0_m));
   trading = new Building("../res/models/bld_trading_post.obj",
-                             glm::vec3(-2, globalY, 10));
+                         glm::vec3(-3.0_m, globalY, 10.0_m));
   ammunition = new Building("../res/models/bld_ammunition.obj",
-                                glm::vec3(-2, globalY, 16));
+                            glm::vec3(-3.0_m, globalY, 0.0_m));
   grand_hotel = new Building("../res/models/bld_grand_hotel.obj",
-                                 glm::vec3(3, globalY, 6));
+                             glm::vec3(3.0_m, globalY, 6.0_m));
 
   // Add all the Buildings to their vector
   drawables.push_back(church);
@@ -232,7 +267,7 @@ void init_models() {
   for (int i = 1; i < 6; i++) {
     Barrel* barrel = new Barrel("../res/models/barrel.obj",
                                 "../res/models/broken_barrel.obj",
-                                glm::vec3(2.3f, globalY, i * 3));
+                                glm::vec3(2.3_m, globalY, i * 3.0_m));
 
     drawables.push_back(barrel);
     barrels.push_back(barrel);
@@ -240,11 +275,11 @@ void init_models() {
 
   for (int i = 0; i < 5; i++) {
     Road* road = new Road("../res/models/road_straight.obj",
-                          glm::vec3(0, globalY, i * 5));
+                          glm::vec3(0.0_m, globalY, i * 5.0_m));
     drawables.push_back(road);
   }
 
-  // set camera next to road as to not get driven over
+  // set camera next to road as to not spawn inside the car
   camera->position.x = -3.0f;
 }
 
@@ -265,6 +300,7 @@ void readScore() {
   std::fstream fs;
   fs.open(scoreFile);
 
+  std::cout << std::filesystem::current_path() << std::endl;
   // Print out the currently saved string in the file
   std::string read_string;
   while (fs >> read_string) {

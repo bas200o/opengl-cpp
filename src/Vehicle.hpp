@@ -13,6 +13,7 @@ public:
 
 	void draw();
 	void move(float amount);
+	void move();
 
 	ObjModel* vehicleModel;
 };
