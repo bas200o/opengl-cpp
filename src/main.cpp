@@ -117,6 +117,9 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+/**
+ * inits TIGL and esc key
+*/
 void init() {
   // Read the text file for the old scores
   readScore();
@@ -152,6 +155,9 @@ void init() {
   initModels();
 }
 
+/**
+ * Logic loop for models
+*/
 void update() {
   // Update the camera
   camera->update(window, stagecoach);
@@ -185,6 +191,9 @@ void update() {
   }
 }
 
+/***
+ * Draws ground texture and applies matricies
+*/
 void draw() {
   glClearColor(0.3f, 0.4f, 0.6f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

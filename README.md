@@ -32,28 +32,8 @@ https://marketplace.visualstudio.com/items?itemName=twxs.cmake
 - Select build target opengl-bas
 - run
 
-
-usage (Linux - x11) : 
----------------
-Some standard library to install:
-```bash
-sudo apt-get install cmake libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
-
-Open the directory into a terminal
-```bash
-mkdir build
-cd build
-cmake ..
-./main
-```
-
-usage (Windows) :
------------------
-For instance :
-* cmake-gui .
-* Configure (Choose for example Visual Studio generator)
-* Generate
-Launch the generated project in your favorite IDE and run it.
+## known issue
+The relative path used when loading models is diffrent under windows vs linux. when running in windows models will not load. Find and replace the locations by going back one folder with ```../```
 
 ## Testing
 run ```ctest``` from build directory
